@@ -66,6 +66,12 @@ jobs:
           field: engines.horusecCLI
           value: horuszup/horusec-cli:v${{ github.event.inputs.horusecCLIversion }}
 
+      - name: Teste
+        run: |
+          echo ${{ github.event.repository.name }}
+          echo ${{ github.event.repository.owner }}
+          echo ${{ github.event.repository }}
+
       - name: Update main branch
         run: |
           git add -A
@@ -76,12 +82,6 @@ jobs:
         run: |
           git tag -s -m ${{ steps.updated-version.outputs.version }} ${{ steps.updated-version.outputs.version }}
           git push origin ${{ steps.updated-version.outputs.version }}
-
-      - name: Teste
-        run: |
-          echo ${{ github.event.repository.name }}
-          echo ${{ github.event.repository.owner }}
-          echo ${{ github.event.repository }}
 
       - name: Get release branch name
         if: github.event.inputs.releaseType != 'p'
