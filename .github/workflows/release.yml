@@ -76,16 +76,17 @@ jobs:
           git tag ${{ steps.updated-version.outputs.version }}
           git push origin ${{ steps.updated-version.outputs.version }}
 
-      - name: Get Minor version
+      - name: Get release branch name
+        if: github.event.inputs.releaseType != 'p'
         run: |
           version=${{ steps.updated-version.outputs.version }}
-          echo "MINOR_VERSION=$(echo ${version%.*})" >> $GITHUB_ENV
+          echo "RELEASE_BRANCH=$(echo release/${version%.*})" >> $GITHUB_ENV
 
       - name: Create release branch
         if: github.event.inputs.releaseType != 'p'
         run: |
-          git branch release/${{ env.MINOR_VERSION }}
-          git push origin release/${{ env.MINOR_VERSION }}
+          git branch ${{ env.RELEASE_BRANCH }}
+          git push origin ${{ env.RELEASE_BRANCH }}
 
       - name: Create github release
         run: |

@@ -17,6 +17,7 @@ name: Publish
 on:
   release:
     types: [published]
+  workflow_dispatch:
 
 jobs:
   Publish:
@@ -32,11 +33,10 @@ jobs:
         with:
           node-version: 12
 
-      - name: Set up vscode extension CLI
-        run: npm install -g vsce
-
       - name: Install dependencies
-        run: npm install
+        run: |
+          npm install
+          npm install -g vsce
 
-      - name: Publish on VScode Marketplace
+      - name: Publish on VSCode Marketplace
         run: vsce publish -p ${{ secrets.VS_MARKETPLACE_TOKEN }}
