@@ -41,6 +41,7 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
+          git config --local commit.gpgsign true
 
       - name: Patch version increment
         id: updated-version
@@ -75,6 +76,12 @@ jobs:
         run: |
           git tag -s -m ${{ steps.updated-version.outputs.version }} ${{ steps.updated-version.outputs.version }}
           git push origin ${{ steps.updated-version.outputs.version }}
+
+      - name: Teste
+        run: |
+          echo ${{ github.event.repository.name }}
+          echo ${{ github.event.repository.owner }}
+          echo ${{ github.event.repository }}
 
       - name: Get release branch name
         if: github.event.inputs.releaseType != 'p'
