@@ -63,11 +63,6 @@ jobs:
           field: engines.horusecCLI
           value: horuszup/horusec-cli:v${{ github.event.inputs.horusecCLIversion }}
 
-      - name: Create tag
-        run: |
-          git tag ${{ steps.updated-version.outputs.version }}
-          git push origin ${{ steps.updated-version.outputs.version }}
-
       - name: Commit changes
         uses: EndBug/add-and-commit@v7.3.0
         with:
