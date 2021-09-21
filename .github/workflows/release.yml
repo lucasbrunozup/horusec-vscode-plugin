@@ -73,7 +73,7 @@ jobs:
 
       - name: Create tag
         run: |
-          git tag -s ${{ steps.updated-version.outputs.version }}
+          git tag -s -m ${{ steps.updated-version.outputs.version }} ${{ steps.updated-version.outputs.version }}
           git push origin ${{ steps.updated-version.outputs.version }}
 
       - name: Get release branch name
