@@ -69,6 +69,8 @@ jobs:
           push: true
           signoff: true
           default_author: user_info
+          author_email: lucas.bruno@zup.com.br
+          committer_email: lucas.bruno@zup.com.br
           tag: ${{ steps.updated-version.outputs.version }}
 
       - name: Create release branch
