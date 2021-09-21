@@ -37,6 +37,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Set up nodejs
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v4
         with:
@@ -52,12 +57,11 @@ jobs:
           chmod +x /tmp/semver.sh
           /tmp/semver.sh -${{ github.event.inputs.releaseType }}
 
-      - name: Update project version on package.json
-        uses: jossef/action-set-json-field@v1
-        with:
-          file: package.json
-          field: version
-          value: ${{ steps.updated-version.outputs.strippedVersion }}
+      - name: Update versions on package.json
+        run: |
+          npm install -g json
+          json -I -f package.json -e 'this.version="${{ steps.updated-version.outputs.strippedVersion }}"'
+          json -I -f package.json -e 'this.engines.horusecCLI="horuszup/horusec-cli:v${{ github.event.inputs.horusecCLIversion }}"'
 
       - name: Update horusec-cli version on package.json
         uses: jossef/action-set-json-field@v1
