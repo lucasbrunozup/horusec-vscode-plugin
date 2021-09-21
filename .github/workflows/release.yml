@@ -42,21 +42,19 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
 
-      - name: Patch version increment
+      - name: Version increment
         id: updated-version
-        uses: Benbentwo/increment-semver@master
-        with:
-          version-level: -${{ github.event.inputs.releaseType }}
-
-      - name: Normalizing version for package.json
-        run: echo "FORMATTED_VERSION=$(echo ${{ steps.updated-version.outputs.version }} | sed 's/v//')" >> $GITHUB_ENV
+        run: |
+          curl https://raw.githubusercontent.com/ZupIT/horusec-devkit/feature/semver-script/scripts/semver.sh -o /tmp/semver.sh
+          chmod +x /tmp/semver.sh
+          /tmp/semver.sh -${{ github.event.inputs.releaseType }}
 
       - name: Update project version on package.json
         uses: jossef/action-set-json-field@v1
         with:
           file: package.json
           field: version
-          value: ${{ env.FORMATTED_VERSION }}
+          value: ${{ steps.updated-version.outputs.strippedVersion }}
 
       - name: Update horusec-cli version on package.json
         uses: jossef/action-set-json-field@v1
@@ -65,28 +63,23 @@ jobs:
           field: engines.horusecCLI
           value: horuszup/horusec-cli:v${{ github.event.inputs.horusecCLIversion }}
 
-      - name: Update main branch
-        run: |
-          git add -A
-          git commit -s -m "Release: bumping ${{ steps.updated-version.outputs.version }}"
-          git push origin main
-
       - name: Create tag
         run: |
           git tag ${{ steps.updated-version.outputs.version }}
           git push origin ${{ steps.updated-version.outputs.version }}
 
-      - name: Get release branch name
-        if: github.event.inputs.releaseType != 'p'
-        run: |
-          version=${{ steps.updated-version.outputs.version }}
-          echo "RELEASE_BRANCH=$(echo release/${version%.*})" >> $GITHUB_ENV
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v7.3.0
+        with:
+          push: true
+          signoff: true
+          tag: ${{ steps.updated-version.outputs.version }}
 
       - name: Create release branch
         if: github.event.inputs.releaseType != 'p'
         run: |
-          git branch ${{ env.RELEASE_BRANCH }}
-          git push origin ${{ env.RELEASE_BRANCH }}
+          git branch ${{ steps.updated-version.outputs.releaseBranchName }}
+          git push origin ${{ steps.updated-version.outputs.releaseBranchName }}
 
       - name: Create github release
         run: |
