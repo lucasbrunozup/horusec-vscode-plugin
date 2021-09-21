@@ -64,6 +64,8 @@ jobs:
           push: true
           signoff: true
           default_author: user_info
+          committer_name: lucas.bruno
+          author_name: lucas.bruno
           tag: ${{ steps.updated-version.outputs.version }}
 
       - name: Create release branch
