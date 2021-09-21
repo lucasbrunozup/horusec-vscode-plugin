@@ -45,7 +45,7 @@ jobs:
       - name: Version increment
         id: updated-version
         run: |
-          curl https://raw.githubusercontent.com/ZupIT/horusec-devkit/feature/semver-script/scripts/semver.sh -o /tmp/semver.sh
+          curl https://raw.githubusercontent.com/ZupIT/horusec-devkit/main/scripts/semver.sh -o /tmp/semver.sh
           chmod +x /tmp/semver.sh
           /tmp/semver.sh -${{ github.event.inputs.releaseType }}
 
