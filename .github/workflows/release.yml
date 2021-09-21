@@ -37,6 +37,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
       - name: Version increment
         id: updated-version
         run: |
@@ -64,8 +69,6 @@ jobs:
           push: true
           signoff: true
           default_author: user_info
-          committer_name: lucas.bruno
-          author_name: lucas.bruno
           tag: ${{ steps.updated-version.outputs.version }}
 
       - name: Create release branch
