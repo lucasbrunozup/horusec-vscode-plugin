@@ -2,13 +2,13 @@
   "name": "horusec",
   "displayName": "Horusec",
   "description": "Horusec is an open source tool that improves identification of vulnerabilities in your project with just one command.",
-  "version": "11.0.0",
+  "version": "12.0.0",
   "publisher": "ZupInnovation",
   "repository": "https://github.com/ZupIT/horusec-extensions/tree/master/horusec-vscode",
   "icon": "resources/horus_icon.png",
   "engines": {
     "vscode": "^1.51.0",
-    "horusecCLI": "horuszup/horusec-cli:v4,6,9"
+    "horusecCLI": "horuszup/horusec-cli:v4.7.7"
   },
   "categories": [
     "Other"
