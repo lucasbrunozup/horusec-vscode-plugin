@@ -70,6 +70,10 @@ jobs:
           field: engines.horusecCLI
           value: horuszup/horusec-cli:v${{ github.event.inputs.horusecCLIversion }}
 
+      - name: Show git config
+        run: |
+          git config --list
+
       - name: Commit changes
         uses: EndBug/add-and-commit@v7.3.0
         with:
