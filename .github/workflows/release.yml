@@ -77,7 +77,7 @@ jobs:
       - name: Commit changes
         uses: EndBug/add-and-commit@v7.3.0
         with:
-          push: true
+          push: origin main --force
           signoff: true
           default_author: user_info
           tag: ${{ steps.updated-version.outputs.version }}
