@@ -84,7 +84,7 @@ jobs:
 
       - name: Push changes
         run: |
-          git push origin main --force
+          git push origin main
 
       - name: Create release branch
         if: github.event.inputs.releaseType != 'p'
