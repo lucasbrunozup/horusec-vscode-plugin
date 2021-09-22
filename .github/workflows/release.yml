@@ -77,10 +77,14 @@ jobs:
       - name: Commit changes
         uses: EndBug/add-and-commit@v7.3.0
         with:
-          push: origin main --force
+          push: false
           signoff: true
           default_author: user_info
           tag: ${{ steps.updated-version.outputs.version }}
+
+      - name: Push changes
+        run: |
+          git push origin main --force
 
       - name: Create release branch
         if: github.event.inputs.releaseType != 'p'
